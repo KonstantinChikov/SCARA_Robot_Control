@@ -246,11 +246,19 @@ void serialFlush() {
 }
 
 void homing() {
+  const unsigned long timeoutDuration = 10000; // Timeout duration in milliseconds (10 seconds)
+
+  unsigned long startTime = millis();
   // Homing Stepper4
   while (digitalRead(limitSwitch4) != 1) {
     stepper4.setSpeed(1500);
     stepper4.runSpeed();
     stepper4.setCurrentPosition(17000); // When limit switch pressed set position to 0 steps
+
+    if (millis() - startTime > timeoutDuration) {
+      Serial.println("Homing Stepper4 failed: Timeout");
+      return; // Exit homing function
+    }
   }
   delay(20);
   stepper4.moveTo(10000);
@@ -259,10 +267,16 @@ void homing() {
   }
 
   // Homing Stepper3
+  startTime = millis();
   while (digitalRead(limitSwitch3) != 1) {
     stepper3.setSpeed(-1100);
     stepper3.runSpeed();
     stepper3.setCurrentPosition(-1662); // When limit switch pressed set position to 0 steps
+
+    if (millis() - startTime > timeoutDuration) {
+      Serial.println("Homing Stepper3 failed: Timeout");
+      return; // Exit homing function
+    }
   }
   delay(20);
 
@@ -272,10 +286,16 @@ void homing() {
   }
 
   // Homing Stepper2
+  startTime = millis();
   while (digitalRead(limitSwitch2) != 1) {
     stepper2.setSpeed(-1300);
     stepper2.runSpeed();
     stepper2.setCurrentPosition(-5420); // When limit switch pressed set position to -5440 steps
+
+    if (millis() - startTime > timeoutDuration) {
+      Serial.println("Homing Stepper2 failed: Timeout");
+      return; // Exit homing function
+    }
   }
   delay(20);
 
@@ -285,10 +305,16 @@ void homing() {
   }
 
   // Homing Stepper1
+  startTime = millis();
   while (digitalRead(limitSwitch1) != 1) {
     stepper1.setSpeed(-1200);
     stepper1.runSpeed();
     stepper1.setCurrentPosition(-3955); // When limit switch pressed set position to 0 steps
+
+    if (millis() - startTime > timeoutDuration) {
+      Serial.println("Homing Stepper1 failed: Timeout");
+      return; // Exit homing function
+    }
   }
   delay(20);
   stepper1.moveTo(0);
