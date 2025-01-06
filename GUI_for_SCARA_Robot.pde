@@ -1,7 +1,5 @@
 /*
    Arduino based SCARA Robot GUI
-   by Dejan, www.HowToMechatronics.com AccelStepper: http://www.airspayce.com/mikem/arduino/AccelStepper/index.html
-
 */
 import processing.serial.*;
 import controlP5.*; 
